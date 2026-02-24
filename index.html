@@ -39,63 +39,26 @@
         </div>
     </div>
 </body>
-<script>  
-var proxy = 'https://urlreq.appspot.com/req?method=GET&url=',
-  url = proxy + 'https://github.com/{{ site.github }}',
-  colors = {
-    'eeeeee': 'github-graph-none',
-    'd6e685': 'github-graph-litte',
-    '8cc665': 'github-graph-some',
-    '44a340': 'github-graph-more',
-    '1e6823': 'github-graph-most'
-  };
+<!-- Include the library. -->
+<script
+  src="https://unpkg.com/github-calendar@latest/dist/github-calendar.min.js"
+></script>
 
-document.addEventListener('DOMContentLoaded', function () {
+<!-- Optionally, include the theme (if you don't want to struggle to write the CSS) -->
+<link
+   rel="stylesheet"
+   href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css"
+/>
 
-  fetch(url)
-    .then(function responseThen (response) {
-      return response.text();
-    })
-    .then(function fetchThen (body) {
-      var wrapper = document.createElement('div'),
-        container = document.querySelector('#github-graph'),
-        graph,
-        gs,
-        fill,
-        index;
+<!-- Prepare a container for your calendar. -->
+<div class="calendar">
+    <!-- Loading stuff -->
+    Loading the data just for you.
+</div>
 
-      wrapper.innerHTML = body;
-
-      graph = wrapper.querySelector('svg.js-calendar-graph-svg');
-      gs = [].slice.call(graph.querySelectorAll('g g'));
-
-      for (var g of gs) {
-        index = gs.indexOf(g);
-
-        if (index < 26) {
-          g.parentElement.removeChild(g);
-        }
-        else {
-          g.attributes.transform.value = 'translate(' + (13 * (index - 26)) + ', 0)';
-        }
-      }
-
-      for(var rect of graph.querySelectorAll('rect')) {
-        fill = rect.getAttribute('fill').substring(1);
-
-        if (colors[fill]) {
-          rect.classList.add(colors[fill]);
-        }
-      }
-
-      graph.setAttribute('version', '1.1');
-      graph.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      graph.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-      graph.setAttribute('xml:space', 'preserve');
-
-      container.innerHTML = graph.outerHTML;
-    });
-
-});
+<script>
+    GitHubCalendar(".calendar", "your-username");
+    // or enable responsive functionality
+    GitHubCalendar(".calendar", "your-username", { responsive: true });
 </script>            
 </html>
